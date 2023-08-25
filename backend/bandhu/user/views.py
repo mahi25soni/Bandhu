@@ -4,6 +4,9 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
 from django.contrib.auth import authenticate, login, logout
+# from .context import get_answer, chatbot
+# from .category import start_conversation
+from .models import Question, Sentiments
 
 
 # Create your views here.
@@ -63,8 +66,10 @@ def question(request):
         try:
             data = json.loads(request.body)
             question = data.get('question')
-
-            return HttpResponse(question)
+            # answer = get_answer(chatbot, question)
+            # cat = start_conversation(question)
+            question = Question.objects.create(question = question)
+            return HttpResponse(question.id)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:

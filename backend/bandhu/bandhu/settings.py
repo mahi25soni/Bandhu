@@ -11,6 +11,10 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
+
+os.environ["OPENAI_API_KEY"] = "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"
+os.environ["TONE_CHECKER"] = "HW4DPD0BCBHQEWC5I90DCY0EOP7HTRHL"
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
