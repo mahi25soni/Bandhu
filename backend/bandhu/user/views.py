@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 # from .context import get_answer, chatbot
 # from .category import start_conversation
 from .models import Question, Sentiments
+from .sentiment import get_sentiment
 
 
 # Create your views here.
@@ -69,8 +70,21 @@ def question(request):
             # answer = get_answer(chatbot, question)
             # cat = start_conversation(question)
             question = Question.objects.create(question = question)
+            set_sentiment(question) 
             return HttpResponse(question.id)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:
         return JsonResponse({"error": "Only POST requests are allowed."}, status=405)
+    
+
+@csrf_exempt
+def set_sentiment(question):
+    try:
+        senti_array = get_sentiment(question.question)
+        for x in senti_array:
+            for key, value in x.items():
+                print("sent ", key, " percent ", value)
+                sentiment = Sentiments.objects.create(question = question, name = key, percent = value)
+    except:
+        return JsonResponse({"error": "There's some error."}, status=400)
