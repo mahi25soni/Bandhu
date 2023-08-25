@@ -13,9 +13,10 @@ def signup(request):
     if request.method == "POST":
         try:
             data = json.loads(request.body)
-            username = data.get("username")
-            email = data.get("email")
-            password = data.get("password")
+            print("nothign rey ", data)
+            username = data.get('username')
+            email = data.get('email')
+            password = data.get('password')
             
             if not username or not password:
                 return JsonResponse({"error": "Username and password are required."}, status=400)
@@ -25,7 +26,7 @@ def signup(request):
             
             user = User.objects.create_user(username=username, email = email, password=password)
             
-            return JsonResponse({"message": "User created successfully.", "user" : user})
+            return JsonResponse({"message": "User created successfully."})
         
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
@@ -51,6 +52,19 @@ def login(request):
             else:
                 return JsonResponse({"error": "Invalid credentials."}, status=401)
             
+        except json.JSONDecodeError:
+            return JsonResponse({"error": "Invalid JSON data."}, status=400)
+    else:
+        return JsonResponse({"error": "Only POST requests are allowed."}, status=405)
+
+@csrf_exempt
+def question(request):
+    if request.method == 'POST':
+        try:
+            data = json.loads(request.body)
+            question = data.get('question')
+
+            return HttpResponse(question)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:
