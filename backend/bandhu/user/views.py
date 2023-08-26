@@ -4,7 +4,7 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.models import User
 import json
 from django.contrib.auth import authenticate, login, logout
-# from .context import get_answer, chatbot
+from .context import get_answer, chatbot
 # from .category import start_conversation
 from .models import Question, Sentiments
 from .sentiment import get_sentiment
@@ -67,11 +67,10 @@ def question(request):
         try:
             data = json.loads(request.body)
             question = data.get('question')
-            # answer = get_answer(chatbot, question)
-            # cat = start_conversation(question)
+            answer = get_answer(chatbot, question)
             question = Question.objects.create(question = question)
             set_sentiment(question) 
-            return HttpResponse(question.id)
+            return HttpResponse(answer)
         except json.JSONDecodeError:
             return JsonResponse({"error": "Invalid JSON data."}, status=400)
     else:

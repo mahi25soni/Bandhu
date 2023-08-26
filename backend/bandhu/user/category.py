@@ -33,7 +33,7 @@ def start_conversation(user_input):
     return assistant_response
 
 # Initialize the conversation with the system message
-# start_conversation("")
+start_conversation("")
 
 # To continue the conversation externally, call start_conversation(user_input)
 # Example: start_conversation("Me and my roomate fight a lot")

@@ -1,12 +1,11 @@
 import requests
 import os
-your_key  = os.environ["TONE_CHECKER"]
 
 def get_sentiment(question) : 
     response = requests.post(
         "https://api.sapling.ai/api/v1/tone",
         json={
-            "key": your_key,
+            "key": "G85HRMB0LLC16MBQ78BN4KI4CO1NCOAE",
             "text": question
         }
     )
